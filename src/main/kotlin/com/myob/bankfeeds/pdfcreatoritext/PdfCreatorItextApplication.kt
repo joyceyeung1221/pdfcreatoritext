@@ -7,5 +7,5 @@ import org.springframework.boot.runApplication
 class PdfCreatorItextApplication
 
 fun main(args: Array<String>) {
-    runApplication<PdfCreatorItextApplication>(*args)
+    PfdCreatorOpenPDF().generateDocument("JOYCE")
 }

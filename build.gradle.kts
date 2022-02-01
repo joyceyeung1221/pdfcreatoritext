@@ -23,6 +23,7 @@ dependencies {
     implementation("org.apache.pdfbox:pdfbox:2.0.25")
     implementation("com.itextpdf:itextpdf:5.5.13.2")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
+    implementation("com.github.librepdf:openpdf:1.3.26")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 
