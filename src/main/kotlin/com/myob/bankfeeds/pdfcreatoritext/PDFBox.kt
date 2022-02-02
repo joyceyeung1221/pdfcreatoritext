@@ -8,7 +8,7 @@ import java.awt.Color
 import java.io.FileOutputStream
 
 
-class PfdCreatorOpenPDF {
+class PDFBox {
     fun generateDocument(Name: String){
         var document: Document = Document(PageSize.A4);
 

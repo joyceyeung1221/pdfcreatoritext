@@ -5,7 +5,7 @@ import com.itextpdf.text.pdf.PdfWriter
 import java.io.FileOutputStream
 
 
-class PfdCreator {
+class ItextPdf {
     fun generateDocument(){
         var document: Document = Document(PageSize.A4);
 
