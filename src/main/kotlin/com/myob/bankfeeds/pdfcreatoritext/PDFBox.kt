@@ -1,68 +1,38 @@
 package com.myob.bankfeeds.pdfcreatoritext
 
-import com.lowagie.text.*
-import com.lowagie.text.pdf.PdfPCell
-import com.lowagie.text.pdf.PdfPTable
-import com.lowagie.text.pdf.PdfWriter
-import java.awt.Color
-import java.io.FileOutputStream
+import com.itextpdf.text.pdf.BarcodeQRCode
+import com.lowagie.text.Image
+import org.apache.pdfbox.pdmodel.PDDocument
+import org.apache.pdfbox.pdmodel.PDPage
+import org.apache.pdfbox.pdmodel.PDResources
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject
+import java.io.File
 
 
 class PDFBox {
-    fun generateDocument(Name: String){
-        var document: Document = Document(PageSize.A4);
+    fun generateDocument(){
+            val pDDocument: PDDocument = PDDocument.load(File("src/output/bank_app_libre_test.pdf"))
+            val pDAcroForm = pDDocument.documentCatalog.acroForm
+            var field = pDAcroForm.getField("account_holder_name")
+            field.setValue("Thomas Haywood")
+            var pdImage = PDImageXObject.createFromFile("src/output/3408.jpg", pDDocument)
 
-        PdfWriter.getInstance(document, FileOutputStream("src/output/ITextHelloWorld.pdf")).setPdfVersion(PdfWriter.PDF_VERSION_1_7)
-        document.open()
-        val whiteFont = Font(Font.HELVETICA, 18.toFloat(), Font.NORMAL, Color(255, 255, 200))
-        var chunk: Chunk = Chunk("new world", whiteFont)
-        var paragraph = Paragraph("This is right aligned text")
-        paragraph.alignment = Element.ALIGN_RIGHT
-        document.add(paragraph)
-        paragraph = Paragraph("This is centered text ${Name}")
-        paragraph.alignment = Element.ALIGN_CENTER
-        document.add(paragraph)
-        paragraph = Paragraph("This is left aligned text")
-        paragraph.alignment = Element.ALIGN_LEFT
-        document.add(paragraph)
+            val page: PDPage = pDDocument.getPage(1)
+            var resources: PDResources = page.getResources()
+            for (xObjectName in resources.xObjectNames) {
+                val xObject = resources.getXObject(xObjectName)
+                if (xObject is PDImageXObject) {
 
-        paragraph = Paragraph(
-            "This is left aligned text with indentation"
-        )
-        paragraph.alignment = Element.ALIGN_LEFT
-        paragraph.indentationLeft = 50f
-        document.add(paragraph)
-        val table = PdfPTable(2)
-        table.setWidthPercentage(100.toFloat())
-        val blue = Color(0, 0, 255)
+                    val replacement_img = pdImage
+                    resources.put(xObjectName, replacement_img);
+                }
+            }
+        val barcodeQRCode = BarcodeQRCode("https://memorynotfound.com", 1000, 1000, null)
+        val codeQrImage: com.itextpdf.text.Image = barcodeQRCode.image
+        codeQrImage.scaleAbsolute(100F, 100F)
+            pDDocument.save("src/output/test_output_openpdf.pdf")
 
-        var cell = PdfPCell()
-        cell.setBorderWidth(0.toFloat())
-        cell.setBackgroundColor(blue)
-        // here i try to change the alignment of text in the cell
-        // here i try to change the alignment of text in the cell
+            pDDocument.close()
 
-        val p = Paragraph("test1", whiteFont)
-        p.alignment = Element.ALIGN_MIDDLE
-        cell.addElement(p)
-        cell.setHorizontalAlignment(Element.ALIGN_CENTER)
-        cell.setVerticalAlignment(Element.ALIGN_CENTER);
-        table.addCell(cell)
-
-        cell = PdfPCell()
-        cell.setVerticalAlignment(Element.ALIGN_CENTER);
-        cell.setBorderWidth(0.toFloat())
-        cell.setBackgroundColor(blue)
-        cell.addElement(Paragraph("test2", whiteFont))
-        table.addCell(cell)
-
-        document.add(table)
-        var img:Image = Image.getInstance("src/output/3408.jpg")
-        img.scaleAbsolute(80f, 80f)
-        img.setAbsolutePosition(400f, 400f)
-        document.add(img)
-        document.add(chunk)
-        document.close()
-        System.out.println("Done")
     }
 }
