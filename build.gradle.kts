@@ -22,8 +22,12 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.apache.pdfbox:pdfbox:2.0.25")
     implementation("com.itextpdf:itextpdf:5.5.13.2")
+    implementation("com.google.zxing:core:3.3.0")
+    implementation("com.google.zxing:javase:3.3.0")
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("com.github.librepdf:openpdf:1.3.26")
+    implementation("net.sf.barcode4j:barcode4j:2.1")
+    implementation("com.github.kenglxn.qrgen:javase:2.6.0")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

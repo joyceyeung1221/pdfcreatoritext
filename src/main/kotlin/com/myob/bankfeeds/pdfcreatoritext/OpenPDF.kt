@@ -1,12 +1,22 @@
 package com.myob.bankfeeds.pdfcreatoritext
 
+import com.google.zxing.BarcodeFormat.QR_CODE
+import com.google.zxing.common.BitMatrix
+import com.google.zxing.qrcode.QRCodeWriter
 import com.lowagie.text.*
+import com.lowagie.text.Font
+import com.lowagie.text.Image
 import com.lowagie.text.pdf.PdfPCell
 import com.lowagie.text.pdf.PdfPTable
 import com.lowagie.text.pdf.PdfWriter
-import java.awt.Color
+import java.awt.*
+import java.awt.Color.BLACK
+import java.awt.Color.WHITE
+import java.awt.image.BufferedImage
+import java.awt.image.BufferedImage.TYPE_INT_RGB
+import java.io.ByteArrayOutputStream
 import java.io.FileOutputStream
-
+import javax.imageio.ImageIO.write
 
 class OpenPDF {
     fun generateDocument(Name: String){
@@ -57,7 +67,7 @@ class OpenPDF {
         table.addCell(cell)
 
         document.add(table)
-        var img:Image = Image.getInstance("src/output/3408.jpg")
+        var img: Image = Image.getInstance("src/output/3408.jpg")
         img.scaleAbsolute(80f, 80f)
         img.setAbsolutePosition(400f, 400f)
         document.add(img)
@@ -65,4 +75,7 @@ class OpenPDF {
         document.close()
         System.out.println("Done")
     }
+
+
+
 }
