@@ -1,7 +1,5 @@
 package com.myob.bankfeeds.pdfcreatoritext
 
-import com.itextpdf.text.pdf.BarcodeQRCode
-import com.lowagie.text.Image
 import org.apache.pdfbox.pdmodel.PDDocument
 import org.apache.pdfbox.pdmodel.PDPage
 import org.apache.pdfbox.pdmodel.PDResources
@@ -17,7 +15,7 @@ class PDFBox {
             field.setValue("Thomas Haywood")
             var pdImage = PDImageXObject.createFromFile("src/output/3408.jpg", pDDocument)
 
-            val page: PDPage = pDDocument.getPage(1)
+            var page: PDPage = pDDocument.getPage(1)
             var resources: PDResources = page.getResources()
             for (xObjectName in resources.xObjectNames) {
                 val xObject = resources.getXObject(xObjectName)
@@ -27,12 +25,11 @@ class PDFBox {
                     resources.put(xObjectName, replacement_img);
                 }
             }
-        val barcodeQRCode = BarcodeQRCode("https://memorynotfound.com", 1000, 1000, null)
-        val codeQrImage: com.itextpdf.text.Image = barcodeQRCode.image
-        codeQrImage.scaleAbsolute(100F, 100F)
+
+
             pDDocument.save("src/output/test_output_openpdf.pdf")
 
             pDDocument.close()
 
     }
-}
+ }

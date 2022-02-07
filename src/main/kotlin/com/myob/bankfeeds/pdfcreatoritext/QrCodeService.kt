@@ -1,30 +1,38 @@
 package com.myob.bankfeeds.pdfcreatoritext
 
 import com.google.zxing.BarcodeFormat
+import com.google.zxing.EncodeHintType
 import com.google.zxing.common.BitMatrix
 import com.google.zxing.qrcode.QRCodeWriter
+import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel
 import java.awt.Color
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
 import java.io.ByteArrayOutputStream
+import java.util.*
 import javax.imageio.ImageIO
 
-class qrCodeGenerator {
-    fun generateQrCode(text: String): ByteArray? {
+class QrCodeService {
+    fun generateQrCode(): ByteArray? {
         val byteStream = ByteArrayOutputStream()
-        ImageIO.write(getQrImage(text), "png", byteStream)
+        ImageIO.write(getQrImage(), "png", byteStream)
         return byteStream.toByteArray()
     }
 
-    fun getQrImage(text: String?): BufferedImage? {
+    fun getQrImage(): BufferedImage? {
+        val text = "1|MYOB|LxNUUvfLI0xDwZG7uIcHwuQDbErFagM2Lvyy5gRDY0qV45y4bSm1pt8uJe+Np4tqoZFDLxjka1Dl0mc1P67ARs16QtmBvPyPLRYisI4ZxP1BcsbonF4Cy8p35HtyrnP9wVp+QEl/P5aGgN7XuoGjfoPc79g8kGL4ktuzFP4yxBM=|anGutDC3nOjRdiPX9+SkqqacQJ7aoYywqXreobjQSQE3VT8V3TDNCoOCRzTI/G4pk0Fd0y+sr1MRN7v+Ye32QejPBK9ycjUsnJHOfdEGSsNhj4RDxr/PqOTL0Fqo7YB3ybSIzVytaA+AzwmyG/5hyR9CimgDE+eudLJxR4eGIaU=|End"
+        val hintMap = Hashtable<EncodeHintType, Any>()
+        hintMap.put(EncodeHintType.ERROR_CORRECTION, ErrorCorrectionLevel.L)
+        hintMap.put(EncodeHintType.QR_VERSION, 12)
         val writer = QRCodeWriter()
         val image = BufferedImage(300, 300, BufferedImage.TYPE_INT_RGB)
-        draw(getGraphics(image), writer.encode(text, BarcodeFormat.QR_CODE, 300 , 300))
+        draw(getGraphics(image), writer.encode(text, BarcodeFormat.QR_CODE, 300 , 300, hintMap))
         return image
     }
+
     private fun draw(graphics: Graphics2D, matrix: BitMatrix) {
-        for (i in 0 .. matrix.getWidth()) {
-            for (j in 0 .. matrix.getHeight()) {
+        for (i in 0 .. matrix.getWidth() -1 ) {
+            for (j in 0 .. matrix.getHeight() -1 ) {
                 if (matrix.get(i, j)) {
                     graphics.fillRect(i, j, 1, 1)
                 }
