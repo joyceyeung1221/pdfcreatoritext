@@ -27,6 +27,8 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     implementation("com.github.librepdf:openpdf:1.3.26")
     implementation("net.sf.barcode4j:barcode4j:2.1")
+    implementation("net.sourceforge.jchardet:jchardet:1.0")
+    implementation("com.googlecode.juniversalchardet:juniversalchardet:1.0.3")
     testImplementation("org.springframework.boot:spring-boot-starter-test")
 }
 

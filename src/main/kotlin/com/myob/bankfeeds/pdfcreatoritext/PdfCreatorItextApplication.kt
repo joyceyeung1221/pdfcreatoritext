@@ -6,5 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 class PdfCreatorItextApplication
 
 fun main(args: Array<String>) {
-    PDFBox().generateDocument()
+    val pdfBox = PDFBox()
+    pdfBox.generateDocument()
+    val image = QrCodeService().drawQR11()
+//    val image = QrCodeService().drawQR12()
+    pdfBox.generateQRcode(image)
 }
