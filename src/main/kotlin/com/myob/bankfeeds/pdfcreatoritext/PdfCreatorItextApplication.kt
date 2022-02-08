@@ -8,7 +8,7 @@ class PdfCreatorItextApplication
 fun main(args: Array<String>) {
     val pdfBox = PDFBox()
     pdfBox.generateDocument()
-    val image = QrCodeService().drawQR11()
-//    val image = QrCodeService().drawQR12()
+//    val image = QrCodeService().drawQR11()
+    val image = QrCodeService().drawQR12()
     pdfBox.generateQRcode(image)
 }
